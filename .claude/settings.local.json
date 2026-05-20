@@ -7,7 +7,8 @@
       "Bash(mkdir -p \"/c/Users/10978/Desktop/WordPress主题/src/layouts\")",
       "Bash(mkdir -p \"/c/Users/10978/Desktop/WordPress主题/src/components\")",
       "Bash(mkdir -p \"/c/Users/10978/Desktop/WordPress主题/src/pages/blog\")",
-      "Bash(mkdir -p \"/c/Users/10978/Desktop/WordPress主题/src/pages/resources\")"
+      "Bash(mkdir -p \"/c/Users/10978/Desktop/WordPress主题/src/pages/resources\")",
+      "Bash(npm run *)"
     ]
   }
 }
