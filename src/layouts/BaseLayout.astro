@@ -5,7 +5,6 @@
 // 修改导航菜单项只需编辑 NAV_ITEMS 数组
 // ================================================================
 import '@/styles/global.css';
-import '@/scripts/darkMode.js';
 import Identity from '@/components/Identity.astro';
 
 export interface Props {
@@ -370,6 +369,8 @@ function isActive(href: string): boolean {
 </style>
 
 <script>
+  import '@/scripts/darkMode.js';
+
   // ================================================================
   // 客户端交互逻辑
   // ================================================================
