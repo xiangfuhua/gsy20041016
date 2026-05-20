@@ -65,22 +65,15 @@
 </style>
 
 <script>
-  // ================================================================
-  // Pagefind 搜索初始化脚本
-  // 构建后 Pagefind 会在 /pagefind/ 目录生成搜索索引
-  // 更多配置参见：https://pagefind.app/
-  // ================================================================
-
   (async function () {
     const input = document.getElementById('pagefindSearchInput');
     const results = document.getElementById('searchResults');
     if (!input || !results) return;
 
-    // 动态加载 Pagefind 索引（构建后生成）
-    const pagefind = await import('pagefind');
+    // 浏览器端直接访问构建后自动生成的静态搜索文件，不要import pagefind包！
+    const pagefind = await import('/pagefind/pagefind.js');
     pagefind.init();
 
-    /** 搜索结果去抖定时器 */
     let debounceTimer;
 
     input.addEventListener('input', async () => {
@@ -94,14 +87,12 @@
       debounceTimer = setTimeout(async () => {
         results.innerHTML = '<div class="search-loading">搜索中...</div>';
 
-        // 执行搜索
         const search = await pagefind.search(query);
         if (!search.results || search.results.length === 0) {
           results.innerHTML = '<div class="search-no-results">未找到相关结果</div>';
           return;
         }
 
-        // 获取前 10 条结果详情
         const limit = 10;
         const data = await Promise.all(
           search.results.slice(0, limit).map((r) => r.data())
@@ -117,7 +108,7 @@
           `
           )
           .join('');
-      }, 300); // 300ms 去抖
+      }, 300);
     });
   })();
 </script>
