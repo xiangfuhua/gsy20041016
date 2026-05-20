@@ -4,15 +4,118 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 
 <BaseLayout
   title="搜索"
-  description="搜索站内文章和资源"
+  description="搜索站内所有文章和资源"
+  currentPath="/search"
 >
-  <main class="page-content" style="text-align: center; padding: 4rem 1rem;">
-    <h1>站内搜索</h1>
-    <p style="font-size: 1.1rem; color: #666; margin: 1rem 0 2rem;">
-      搜索功能正在完善中，请稍后再来。
-    </p>
-    <p style="color: #999;">
-      感谢你的耐心等待 🚀
-    </p>
+  <main class="search-page">
+    <h1 class="search-title">站内搜索</h1>
+    <div class="search-container">
+      <!-- Pagefind UI 将挂载到此容器 -->
+      <div id="pagefind-search"></div>
+      <div id="searchStatus" class="search-status">正在加载搜索功能…</div>
+    </div>
   </main>
 </BaseLayout>
+
+<style>
+  .search-page {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 1rem 0;
+  }
+  .search-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 1.5rem;
+    border-bottom: 2px solid var(--color-primary);
+    padding-bottom: 0.5rem;
+    display: inline-block;
+  }
+  .search-container {
+    width: 100%;
+  }
+  .search-status {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+  /* Pagefind UI 样式覆盖 */
+  :global(.pagefind-ui__search-input) {
+    border: 2px solid var(--border-color) !important;
+    border-radius: 10px !important;
+    padding: 0.75rem 1rem 0.75rem 2.5rem !important;
+    font-size: 1rem !important;
+    font-family: inherit !important;
+    background: var(--bg-primary) !important;
+    color: var(--text-primary) !important;
+  }
+  :global(.pagefind-ui__search-input:focus) {
+    border-color: var(--color-primary) !important;
+  }
+  :global(.pagefind-ui__result-title) {
+    color: var(--color-primary) !important;
+  }
+  :global(.pagefind-ui__result-excerpt) {
+    color: var(--text-secondary) !important;
+  }
+  :global(.pagefind-ui__result) {
+    border: 1px solid var(--border-color) !important;
+    border-radius: var(--radius-md) !important;
+    padding: 1rem 1.2rem !important;
+    margin-bottom: 0.8rem !important;
+    background: var(--bg-primary) !important;
+  }
+  :global(.pagefind-ui__result-link:hover) {
+    background: transparent !important;
+  }
+  :global(.pagefind-ui__search-clear) {
+    display: none !important;
+  }
+  :global(.pagefind-ui__result-tag) {
+    background: var(--color-primary-light) !important;
+    color: var(--color-primary) !important;
+    border-radius: 4px !important;
+  }
+  :global(.pagefind-ui__message) {
+    color: var(--text-muted) !important;
+    font-size: 0.9rem !important;
+  }
+</style>
+
+<script>
+  (function () {
+    const status = document.getElementById('searchStatus');
+    const container = document.getElementById('pagefind-search');
+
+    if (!container || !status) return;
+
+    // 动态加载 Pagefind UI 样式
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = '/pagefind/pagefind-ui.css';
+    document.head.appendChild(link);
+
+    // 动态加载 Pagefind UI 脚本（避免 build 时解析）
+    const script = document.createElement('script');
+    script.src = '/pagefind/pagefind-ui.js';
+    script.onload = function () {
+      if (typeof PagefindUI !== 'undefined') {
+        new PagefindUI({
+          element: '#pagefind-search',
+          showSubResults: true,
+          showImages: false,
+          resetStyles: false,
+        });
+        status.textContent = '';
+      } else {
+        status.textContent = '搜索组件加载异常，请刷新重试。';
+      }
+    };
+    script.onerror = function () {
+      status.innerHTML = '搜索索引尚未生成，请先运行 <code>npm run build</code>。';
+    };
+    document.body.appendChild(script);
+  })();
+</script>

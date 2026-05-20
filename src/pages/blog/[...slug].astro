@@ -15,7 +15,7 @@ import { SITE_NAME, SITE_AUTHOR, SITE_LOGO, resolveUrl } from '@/consts';
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
   return posts.map((post) => ({
-    params: { slug: post.id.replace(/\/index$/, '') },
+    params: { slug: post.id.replace(/\/index$/, '').replace(/\.(md|mdx)$/, '') },
     props: { post },
   }));
 }

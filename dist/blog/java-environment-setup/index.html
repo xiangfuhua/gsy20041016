@@ -1,0 +1,166 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="手把手教你安装 Java 开发环境，从 JDK 下载到 Maven 配置，全程实操，小白也能轻松完成。"><meta name="theme-color" content="#1e3a8a"><!-- Open Graph / Facebook 社交分享标签 --><meta property="og:title" content="如何优雅地安装 Java 开发环境（JDK + Maven） - 电脑技术资源博客"><meta property="og:description" content="手把手教你安装 Java 开发环境，从 JDK 下载到 Maven 配置，全程实操，小白也能轻松完成。"><meta property="og:image" content="https://gsy20041016.com/default-og.svg"><meta property="og:url" content="https://gsy20041016.com/blog/java-environment-setup/"><meta property="og:type" content="article"><meta property="og:site_name" content="电脑技术资源博客"><!-- Twitter Card 标签 --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="如何优雅地安装 Java 开发环境（JDK + Maven） - 电脑技术资源博客"><meta name="twitter:description" content="手把手教你安装 Java 开发环境，从 JDK 下载到 Maven 配置，全程实操，小白也能轻松完成。"><meta name="twitter:image" content="https://gsy20041016.com/default-og.svg"><!-- 规范链接（防止重复内容影响 SEO） --><link rel="canonical" href="https://gsy20041016.com/blog/java-environment-setup/"><!-- 搜索引擎索引控制 --><title>如何优雅地安装 Java 开发环境（JDK + Maven） - 电脑技术资源博客</title><link rel="icon" type="image/svg+xml" href="/favicon.svg"><!-- Pagefind 搜索库（由 astro-pagefind 注入） --><!-- Netlify Identity Widget - temporarily disabled --><!-- <script src="https://identity.netlify.com/v1/netlify-identity-widget.js" defer></script> --><link rel="stylesheet" href="/_astro/_slug_.CBeEM3iK.css">
+<style>.article-detail[data-astro-cid-7jjqptxk]{max-width:780px;margin:0 auto}.article-header[data-astro-cid-7jjqptxk]{margin-bottom:1.5rem}.article-meta-top[data-astro-cid-7jjqptxk]{display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem}.article-category[data-astro-cid-7jjqptxk]{font-size:.75rem;color:var(--color-primary);background:var(--color-primary-light);padding:.15rem .5rem;border-radius:4px;text-decoration:none}.article-premium[data-astro-cid-7jjqptxk]{font-size:.75rem;color:#fff;background:#f59e0b;padding:.15rem .5rem;border-radius:4px}.article-title[data-astro-cid-7jjqptxk]{font-size:1.6rem;font-weight:800;color:var(--text-primary);margin:0 0 .5rem;line-height:1.35}.article-meta[data-astro-cid-7jjqptxk]{font-size:.85rem;color:var(--text-muted)}.article-hero[data-astro-cid-7jjqptxk]{margin-bottom:1.5rem;border-radius:10px;overflow:hidden}.article-hero[data-astro-cid-7jjqptxk] img[data-astro-cid-7jjqptxk]{width:100%;height:auto;display:block}.article-content[data-astro-cid-7jjqptxk]{font-size:.95rem;line-height:1.8;color:var(--text-primary)}.article-content[data-astro-cid-7jjqptxk] h2{font-size:1.25rem;margin:1.5rem 0 .8rem;padding-bottom:.3rem;border-bottom:1px solid var(--border-color)}.article-content[data-astro-cid-7jjqptxk] h3{font-size:1.1rem;margin:1.2rem 0 .5rem}.article-content[data-astro-cid-7jjqptxk] p{margin:0 0 1rem}.article-content[data-astro-cid-7jjqptxk] ul,.article-content[data-astro-cid-7jjqptxk] ol{margin:0 0 1rem;padding-left:1.5rem}.article-content[data-astro-cid-7jjqptxk] li{margin-bottom:.3rem}.article-content[data-astro-cid-7jjqptxk] code{font-size:.85em;background:var(--code-bg);padding:.15rem .4rem;border-radius:4px}.article-content[data-astro-cid-7jjqptxk] pre{background:#1f2937;color:#f3f4f6;padding:1rem;border-radius:8px;overflow-x:auto;margin:0 0 1rem}.article-content[data-astro-cid-7jjqptxk] pre code{background:none;padding:0;color:inherit}.article-content[data-astro-cid-7jjqptxk] blockquote{border-left:3px solid var(--color-primary);padding-left:1rem;margin:0 0 1rem;color:var(--text-secondary);font-style:italic}.article-content[data-astro-cid-7jjqptxk] img{max-width:100%;border-radius:8px;margin:1rem 0}.article-content[data-astro-cid-7jjqptxk] a{color:var(--color-primary);text-decoration:underline}.article-tags[data-astro-cid-7jjqptxk]{display:flex;align-items:center;gap:.4rem;margin-top:2rem;padding-top:1rem;border-top:1px solid var(--border-color)}.tags-label[data-astro-cid-7jjqptxk]{font-size:.85rem;color:var(--text-muted)}.tag[data-astro-cid-7jjqptxk]{font-size:.75rem;background:var(--color-primary-light);color:var(--color-primary);padding:.15rem .5rem;border-radius:4px}.article-comments[data-astro-cid-7jjqptxk]{margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid var(--border-color)}.comments-title[data-astro-cid-7jjqptxk]{font-size:1.1rem;font-weight:600;margin:0 0 1rem;color:var(--text-primary)}@media(max-width:640px){.article-title[data-astro-cid-7jjqptxk]{font-size:1.25rem}.article-content[data-astro-cid-7jjqptxk]{font-size:.9rem}}
+</style></head> <body> <!-- ============================================================ --> <!-- 导航栏 --> <!-- ============================================================ --> <header class="site-header"> <div class="header-inner"> <a href="/" class="site-logo"> <span class="logo-icon">&lt;/&gt;</span> <span class="logo-text">技术博客</span> </a> <!-- 汉堡菜单按钮（移动端） --> <button class="menu-toggle" aria-label="切换菜单" type="button"> <span class="menu-bar"></span> <span class="menu-bar"></span> <span class="menu-bar"></span> </button> <!-- 主导航 --> <nav class="main-nav" id="mainNav"> <ul class="nav-list"> <li class="nav-item"> <a href="/" class="nav-link"> 首页 </a> </li><li class="nav-item"> <a href="/blog?category=office" class="nav-link active"> 办公教程 </a> </li><li class="nav-item"> <a href="/blog?category=programming" class="nav-link active"> 编程学习 </a> </li><li class="nav-item"> <a href="/blog?category=software" class="nav-link active"> 软件安装 </a> </li><li class="nav-item"> <a href="/blog?category=computer" class="nav-link active"> 电脑问题 </a> </li><li class="nav-item"> <a href="/resources" class="nav-link"> 资源下载 </a> </li> </ul> </nav> <!-- 右侧操作区 --> <div class="header-actions"> <!-- 搜索按钮 --> <a href="/search" class="action-btn" aria-label="搜索"> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"> <circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path> </svg> </a> <!-- 深色模式切换 --> <button id="darkModeToggle" class="action-btn" aria-label="切换深色模式" type="button"> <!-- 太阳图标（亮色模式） --> <svg id="sunIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"> <circle cx="12" cy="12" r="5"></circle><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path> </svg> <!-- 月亮图标（深色模式） --> <svg id="moonIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"> <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path> </svg> </button> <!-- 用户登录/注册组件（暂时隐藏） --> <!-- <Identity /> --> </div> </div> </header> <!-- ============================================================ --> <!-- 主内容区 --> <!-- ============================================================ --> <main class="main-content"> <!-- 广告位：未来可在此插入广告代码 --> <!-- 广告位：例如 Google AdSense 或 Carbon Ads 的脚本 -->   <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "如何优雅地安装 Java 开发环境（JDK + Maven）",
+  "description": "手把手教你安装 Java 开发环境，从 JDK 下载到 Maven 配置，全程实操，小白也能轻松完成。",
+  "datePublished": "2026-05-24T00:00:00.000Z",
+  "url": "https://gsy20041016.com/blog/java-environment-setup/",
+  "author": {
+    "@type": "Person",
+    "name": "Chen Yongshun"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "电脑技术资源博客",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://gsy20041016.com/favicon.svg"
+    }
+  }
+}</script> <article class="article-detail" data-astro-cid-7jjqptxk> <!-- 文章元信息 --> <header class="article-header" data-astro-cid-7jjqptxk> <div class="article-meta-top" data-astro-cid-7jjqptxk> <a href="/blog?category=programming" class="article-category" data-astro-cid-7jjqptxk> 编程学习 </a>  </div> <h1 class="article-title" data-astro-cid-7jjqptxk>如何优雅地安装 Java 开发环境（JDK + Maven）</h1> <div class="article-meta" data-astro-cid-7jjqptxk> <time datetime="2026-05-24T00:00:00.000Z" data-astro-cid-7jjqptxk> 2026年5月24日 </time> </div> </header> <!-- 缩略图 -->  <!-- 文章正文 --> <div class="article-content" data-astro-cid-7jjqptxk> <p>作为 Java 开发的第一步，配置开发环境是几乎所有初学者都会碰到的问题。JDK 版本怎么选？环境变量怎么配？Maven 是干什么的？很多新手在这些环节就被绕晕了。</p>
+<p>本文从零开始，一步步教你搭建最主流的 Java 开发环境：<strong>JDK 21（LTS）+ Maven + 环境变量配置</strong>。</p>
+<h2 id="一安装-jdk">一、安装 JDK</h2>
+<p>JDK（Java Development Kit）是 Java 开发的核心工具包，包含了编译、运行 Java 程序所需的所有工具。</p>
+<h3 id="1-选择-jdk-版本">1. 选择 JDK 版本</h3>
+<p>目前最推荐的是 <strong>JDK 21（LTS 长期支持版）</strong>，稳定且主流。如果你有其他项目要求（比如公司项目用 JDK 17 或 JDK 11），也可以选择对应版本。</p>
+<blockquote>
+<p><strong>版本选择建议</strong>：新手直接选最新的 LTS 版本（目前是 JDK 21）。不用纠结版本号，不同版本之间的基础语法差异很小。</p>
+</blockquote>
+<h3 id="2-下载与安装">2. 下载与安装</h3>
+<p><strong>推荐使用 Oracle JDK 或 Eclipse Temurin：</strong></p>
+<p><strong>方式一：Eclipse Temurin（推荐，免费开源）</strong></p>
+<ol>
+<li>打开 <a href="https://adoptium.net/">https://adoptium.net/</a></li>
+<li>选择 “Latest LTS Release”（目前是 JDK 21）</li>
+<li>选择对应操作系统（Windows/macOS/Linux）和架构（64-bit）</li>
+<li>下载 .msi（Windows）或 .pkg（macOS）安装包</li>
+</ol>
+<p><strong>方式二：Oracle JDK（官方版本）</strong></p>
+<ol>
+<li>打开 <a href="https://www.oracle.com/java/technologies/downloads/">https://www.oracle.com/java/technologies/downloads/</a></li>
+<li>选择 JDK 21，下载对应系统的安装包</li>
+<li>注意：Oracle JDK 个人使用免费，商业使用需授权</li>
+</ol>
+<p><strong>安装步骤（Windows）：</strong></p>
+<ol>
+<li>双击下载的 .msi 文件</li>
+<li>一路点击 Next（默认安装在 <code>C:\Program Files\Java\jdk-21</code>）</li>
+<li>等待安装完成</li>
+</ol>
+<h3 id="3-配置环境变量">3. 配置环境变量</h3>
+<p><strong>Windows 系统：</strong></p>
+<ol>
+<li>右键「此电脑」→「属性」→「高级系统设置」</li>
+<li>点击「环境变量」</li>
+<li><strong>新建 JAVA_HOME：</strong>
+<ul>
+<li>系统变量 → 新建</li>
+<li>变量名：<code>JAVA_HOME</code></li>
+<li>变量值：<code>C:\Program Files\Java\jdk-21</code>（你的 JDK 安装路径）</li>
+</ul>
+</li>
+<li><strong>编辑 Path 变量：</strong>
+<ul>
+<li>找到系统变量中的 Path → 双击编辑</li>
+<li>点击「新建」→ 添加 <code>%JAVA_HOME%\bin</code></li>
+<li>点击确定</li>
+</ul>
+</li>
+</ol>
+<h3 id="4-验证安装">4. 验证安装</h3>
+<p>打开命令提示符（CMD），输入以下命令验证：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">java</span><span style="color:#005CC5"> -version</span></span>
+<span class="line"><span style="color:#6A737D"># 应该显示：java version "21.0.x" ...</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6F42C1">javac</span><span style="color:#005CC5"> -version</span></span>
+<span class="line"><span style="color:#6A737D"># 应该显示：javac 21.0.x</span></span></code></pre>
+<p>如果出现”不是内部或外部命令”的提示，说明环境变量配置有误，请检查上一步的 Path 配置。</p>
+<blockquote>
+<p><strong>命令行查错</strong>：如果 <code>java -version</code> 能显示但 <code>javac -version</code> 报错，通常是因为 Path 中没有正确指向 <code>%JAVA_HOME%\bin</code>，请重新检查环境变量设置。</p>
+</blockquote>
+<h3 id="5-第一个-java-程序">5. 第一个 Java 程序</h3>
+<p>验证安装完成后，写一个简单的程序测试：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#D73A49">public</span><span style="color:#D73A49"> class</span><span style="color:#6F42C1"> HelloJava</span><span style="color:#24292E"> {</span></span>
+<span class="line"><span style="color:#D73A49">    public</span><span style="color:#D73A49"> static</span><span style="color:#D73A49"> void</span><span style="color:#6F42C1"> main</span><span style="color:#24292E">(</span><span style="color:#D73A49">String</span><span style="color:#24292E">[] </span><span style="color:#E36209">args</span><span style="color:#24292E">) {</span></span>
+<span class="line"><span style="color:#24292E">        System.out.</span><span style="color:#6F42C1">println</span><span style="color:#24292E">(</span><span style="color:#032F62">"Hello, Java 环境配置成功！"</span><span style="color:#24292E">);</span></span>
+<span class="line"><span style="color:#24292E">    }</span></span>
+<span class="line"><span style="color:#24292E">}</span></span></code></pre>
+<p><strong>编译运行步骤：</strong></p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">javac</span><span style="color:#032F62"> HelloJava.java</span><span style="color:#6A737D">   # 编译（生成 HelloJava.class）</span></span>
+<span class="line"><span style="color:#6F42C1">java</span><span style="color:#032F62"> HelloJava</span><span style="color:#6A737D">          # 运行（输出：Hello, Java 环境配置成功！）</span></span></code></pre>
+<h2 id="二安装-maven">二、安装 Maven</h2>
+<p>Maven 是 Java 项目最常用的构建工具和依赖管理工具。简单说，它的作用就是：帮你自动下载项目需要的第三方库（jar 包），并帮你编译、打包、测试项目。</p>
+<h3 id="1-下载-maven">1. 下载 Maven</h3>
+<ol>
+<li>打开 <a href="https://maven.apache.org/download.cgi">https://maven.apache.org/download.cgi</a></li>
+<li>下载 <code>apache-maven-3.9.x-bin.zip</code>（最新稳定版）</li>
+<li>解压到你喜欢的目录，比如 <code>D:\tools\apache-maven-3.9.9</code></li>
+</ol>
+<h3 id="2-配置-maven-环境变量">2. 配置 Maven 环境变量</h3>
+<ol>
+<li><strong>新建 MAVEN_HOME：</strong>
+<ul>
+<li>系统变量 → 新建</li>
+<li>变量名：<code>MAVEN_HOME</code></li>
+<li>变量值：<code>D:\tools\apache-maven-3.9.9</code>（你的 Maven 解压路径）</li>
+</ul>
+</li>
+<li><strong>编辑 Path 变量：</strong>
+<ul>
+<li>添加 <code>%MAVEN_HOME%\bin</code></li>
+</ul>
+</li>
+<li><strong>验证安装：</strong>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">mvn</span><span style="color:#005CC5"> -version</span></span>
+<span class="line"><span style="color:#6A737D"># 应该显示 Maven 版本号和 Java 版本信息</span></span></code></pre>
+</li>
+</ol>
+<h3 id="3-配置-maven-镜像源重要">3. 配置 Maven 镜像源（重要）</h3>
+<p>Maven 默认从中央仓库下载依赖，国内下载速度很慢。建议配置阿里云镜像：</p>
+<p>找到 Maven 安装目录下的 <code>conf\settings.xml</code>，在 <code>&#x3C;mirrors></code> 标签中添加：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="xml"><code><span class="line"><span style="color:#24292E">&#x3C;</span><span style="color:#22863A">mirror</span><span style="color:#24292E">></span></span>
+<span class="line"><span style="color:#24292E">    &#x3C;</span><span style="color:#22863A">id</span><span style="color:#24292E">>aliyunmaven&#x3C;/</span><span style="color:#22863A">id</span><span style="color:#24292E">></span></span>
+<span class="line"><span style="color:#24292E">    &#x3C;</span><span style="color:#22863A">name</span><span style="color:#24292E">>阿里云公共仓库&#x3C;/</span><span style="color:#22863A">name</span><span style="color:#24292E">></span></span>
+<span class="line"><span style="color:#24292E">    &#x3C;</span><span style="color:#22863A">url</span><span style="color:#24292E">>https://maven.aliyun.com/repository/public&#x3C;/</span><span style="color:#22863A">url</span><span style="color:#24292E">></span></span>
+<span class="line"><span style="color:#24292E">    &#x3C;</span><span style="color:#22863A">mirrorOf</span><span style="color:#24292E">>central&#x3C;/</span><span style="color:#22863A">mirrorOf</span><span style="color:#24292E">></span></span>
+<span class="line"><span style="color:#24292E">&#x3C;/</span><span style="color:#22863A">mirror</span><span style="color:#24292E">></span></span></code></pre>
+<p>配置完成后，以后用 Maven 下载依赖时，会从阿里云镜像下载，速度快很多。</p>
+<blockquote>
+<p><strong>效果对比</strong>：未配置镜像时，下载一个 Spring Boot 项目可能需要 10-30 分钟；配置阿里云镜像后，通常 1-3 分钟就能完成。</p>
+</blockquote>
+<h2 id="三ide-推荐">三、IDE 推荐</h2>
+<p>JDK 和 Maven 配置好后，你就可以使用 IDE（集成开发环境）开始写 Java 项目了。</p>
+<p>推荐以下两个 IDE：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>IDE</th><th>适用场景</th><th>下载地址</th></tr></thead><tbody><tr><td><strong>IntelliJ IDEA Community</strong></td><td>Java 开发首选，免费版已够用</td><td>jetbrains.com/idea/download</td></tr><tr><td><strong>VS Code + Java 扩展包</strong></td><td>轻量级选择，适合配置一般的电脑</td><td>code.visualstudio.com</td></tr></tbody></table>
+<p><strong>IntelliJ IDEA 中配置 JDK 和 Maven：</strong></p>
+<ol>
+<li>打开 IntelliJ IDEA → File → Settings（或 Ctrl+Alt+S）</li>
+<li>搜索 “JDK” → 选择你安装的 JDK 21</li>
+<li>搜索 “Maven” → 选择你安装的 Maven 路径（覆盖内置 Maven）</li>
+<li>在 Maven 设置中，确认使用的是配置了阿里云镜像的 settings.xml</li>
+</ol>
+<hr>
+<p>按照以上步骤，你的 Java 开发环境就搭建好了。总结一下流程：安装 JDK → 配置 JAVA_HOME → 安装 Maven → 配置镜像源 → 安装 IDE。整个过程大概 30 分钟，但一劳永逸，之后任何 Java 项目都能在这个环境上开发和运行。</p>
+<p>如果在配置过程中遇到任何问题，欢迎在评论区留言交流。</p> </div> <!-- 标签列表 --> <div class="article-tags" data-astro-cid-7jjqptxk> <span class="tags-label" data-astro-cid-7jjqptxk>标签：</span> <span class="tag" data-astro-cid-7jjqptxk>Java</span><span class="tag" data-astro-cid-7jjqptxk>JDK</span><span class="tag" data-astro-cid-7jjqptxk>Maven</span><span class="tag" data-astro-cid-7jjqptxk>环境配置</span><span class="tag" data-astro-cid-7jjqptxk>开发工具</span> </div> <!-- 广告位：未来可插入广告代码 --> <!-- 广告位：正文结束后可插入相关广告 --> <!-- ========================================================== --> <!-- Giscus 评论区 --> <!-- ========================================================== --> <div class="article-comments" data-astro-cid-7jjqptxk> <h3 class="comments-title" data-astro-cid-7jjqptxk>评论交流</h3> <div class="giscus-comments"></div> <script type="module">const o="xiangfuhua/gsy20041016",c="R_kgDOSihhvA",u="Announcements",d="DIC_kwDOSihhvM4C9cB_";function s(a="light"){const e=document.querySelector(".giscus-comments");if(!e)return;const i=document.querySelector("script[giscus-widget]"),r=e.querySelector("iframe");i&&i.remove(),r&&r.remove();const t=document.createElement("script");t.setAttribute("giscus-widget",""),t.src="https://giscus.app/client.js",t.setAttribute("data-repo",o),t.setAttribute("data-repo-id",c),t.setAttribute("data-category",u),t.setAttribute("data-category-id",d),t.setAttribute("data-mapping","pathname"),t.setAttribute("data-strict","0"),t.setAttribute("data-reactions-enabled","1"),t.setAttribute("data-emit-metadata","0"),t.setAttribute("data-input-position","bottom"),t.setAttribute("data-theme",a),t.setAttribute("data-lang","zh-CN"),t.setAttribute("data-loading","lazy"),t.setAttribute("crossorigin","anonymous"),t.async=!0,e.appendChild(t)}function n(){return document.documentElement.getAttribute("data-theme")==="dark"?"dark":"light"}s(n());const m=new MutationObserver(a=>{a.forEach(e=>{e.attributeName==="data-theme"&&s(n())})});m.observe(document.documentElement,{attributes:!0});</script> </div> </article>  </main> <!-- ============================================================ --> <!-- 页脚 --> <!-- ============================================================ --> <footer class="site-footer"> <!-- 页脚广告位 --> <!-- 广告位：未来可插入广告代码 --> <div class="footer-inner"> <div class="footer-links"> <a href="/">首页</a> <a href="/blog">全部文章</a> <a href="/resources">资源下载</a> <a href="/pages/about">关于我</a> </div> <div class="footer-copyright"> <p>&copy; 2026 电脑技术资源博客 — 免费分享，共同进步</p> <!-- 广告位：未来可插入广告代码 --> </div> </div> <!-- 回到顶部按钮 --> <button id="backToTop" class="back-to-top" aria-label="回到顶部" type="button"> <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"> <path d="m18 15-6-6-6 6"></path> </svg> </button> </footer>  <script type="module">(function(){function c(){return document.documentElement.getAttribute("data-theme")||"light"}function n(e){document.documentElement.setAttribute("data-theme",e),localStorage.setItem("theme",e),r(e)}function s(){const t=c()==="dark"?"light":"dark";n(t)}function r(e){const t=document.getElementById("sunIcon"),d=document.getElementById("moonIcon");t&&d&&(e==="dark"?(t.style.display="none",d.style.display="block"):(t.style.display="block",d.style.display="none"))}function a(){const e=localStorage.getItem("theme");if(e==="dark"||e==="light"){n(e);return}const t=window.matchMedia("(prefers-color-scheme: dark)").matches;n(t?"dark":"light")}document.readyState==="loading"?document.addEventListener("DOMContentLoaded",a):a(),document.addEventListener("DOMContentLoaded",function(){const e=document.getElementById("darkModeToggle");e&&e.addEventListener("click",s)}),window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",function(e){localStorage.getItem("theme")||n(e.matches?"dark":"light")})})();const i=document.querySelector(".menu-toggle"),o=document.getElementById("mainNav");i&&o&&(i.addEventListener("click",()=>{o.classList.toggle("open")}),o.querySelectorAll(".nav-link").forEach(c=>{c.addEventListener("click",()=>{o.classList.remove("open")})}));const l=document.getElementById("backToTop");l&&(window.addEventListener("scroll",()=>{l.classList.toggle("visible",window.scrollY>400)}),l.addEventListener("click",()=>{window.scrollTo({top:0,behavior:"smooth"})}));</script></body></html> 

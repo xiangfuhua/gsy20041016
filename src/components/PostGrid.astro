@@ -34,7 +34,7 @@ const CATEGORY_NAMES: Record<string, string> = {
     <div class="post-grid">
       {posts.map((post) => {
         const { title, description, date, heroImage, category, premium, tags } = post.data;
-        const slug = post.id.replace(/\/index$/, ''); // 去除可能存在的 /index 后缀
+        const slug = post.id.replace(/\/index$/, '').replace(/\.(md|mdx)$/, ''); // 去除可能存在的 /index 后缀和文件扩展名
         const href = type === 'blog' ? `/blog/${slug}` : `/resources/${slug}`;
         return (
           <a href={href} class="post-card" key={post.id}>

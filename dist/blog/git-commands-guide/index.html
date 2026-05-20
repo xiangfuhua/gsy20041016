@@ -1,0 +1,155 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="Git 是现代开发的必备技能。本文整理了 Git 最常用的命令和操作场景，从入门到日常使用，一篇就够了。"><meta name="theme-color" content="#1e3a8a"><!-- Open Graph / Facebook 社交分享标签 --><meta property="og:title" content="Git 常用命令清单：新手必看的版本控制指南 - 电脑技术资源博客"><meta property="og:description" content="Git 是现代开发的必备技能。本文整理了 Git 最常用的命令和操作场景，从入门到日常使用，一篇就够了。"><meta property="og:image" content="https://gsy20041016.com/default-og.svg"><meta property="og:url" content="https://gsy20041016.com/blog/git-commands-guide/"><meta property="og:type" content="article"><meta property="og:site_name" content="电脑技术资源博客"><!-- Twitter Card 标签 --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Git 常用命令清单：新手必看的版本控制指南 - 电脑技术资源博客"><meta name="twitter:description" content="Git 是现代开发的必备技能。本文整理了 Git 最常用的命令和操作场景，从入门到日常使用，一篇就够了。"><meta name="twitter:image" content="https://gsy20041016.com/default-og.svg"><!-- 规范链接（防止重复内容影响 SEO） --><link rel="canonical" href="https://gsy20041016.com/blog/git-commands-guide/"><!-- 搜索引擎索引控制 --><title>Git 常用命令清单：新手必看的版本控制指南 - 电脑技术资源博客</title><link rel="icon" type="image/svg+xml" href="/favicon.svg"><!-- Pagefind 搜索库（由 astro-pagefind 注入） --><!-- Netlify Identity Widget - temporarily disabled --><!-- <script src="https://identity.netlify.com/v1/netlify-identity-widget.js" defer></script> --><link rel="stylesheet" href="/_astro/_slug_.CBeEM3iK.css">
+<style>.article-detail[data-astro-cid-7jjqptxk]{max-width:780px;margin:0 auto}.article-header[data-astro-cid-7jjqptxk]{margin-bottom:1.5rem}.article-meta-top[data-astro-cid-7jjqptxk]{display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem}.article-category[data-astro-cid-7jjqptxk]{font-size:.75rem;color:var(--color-primary);background:var(--color-primary-light);padding:.15rem .5rem;border-radius:4px;text-decoration:none}.article-premium[data-astro-cid-7jjqptxk]{font-size:.75rem;color:#fff;background:#f59e0b;padding:.15rem .5rem;border-radius:4px}.article-title[data-astro-cid-7jjqptxk]{font-size:1.6rem;font-weight:800;color:var(--text-primary);margin:0 0 .5rem;line-height:1.35}.article-meta[data-astro-cid-7jjqptxk]{font-size:.85rem;color:var(--text-muted)}.article-hero[data-astro-cid-7jjqptxk]{margin-bottom:1.5rem;border-radius:10px;overflow:hidden}.article-hero[data-astro-cid-7jjqptxk] img[data-astro-cid-7jjqptxk]{width:100%;height:auto;display:block}.article-content[data-astro-cid-7jjqptxk]{font-size:.95rem;line-height:1.8;color:var(--text-primary)}.article-content[data-astro-cid-7jjqptxk] h2{font-size:1.25rem;margin:1.5rem 0 .8rem;padding-bottom:.3rem;border-bottom:1px solid var(--border-color)}.article-content[data-astro-cid-7jjqptxk] h3{font-size:1.1rem;margin:1.2rem 0 .5rem}.article-content[data-astro-cid-7jjqptxk] p{margin:0 0 1rem}.article-content[data-astro-cid-7jjqptxk] ul,.article-content[data-astro-cid-7jjqptxk] ol{margin:0 0 1rem;padding-left:1.5rem}.article-content[data-astro-cid-7jjqptxk] li{margin-bottom:.3rem}.article-content[data-astro-cid-7jjqptxk] code{font-size:.85em;background:var(--code-bg);padding:.15rem .4rem;border-radius:4px}.article-content[data-astro-cid-7jjqptxk] pre{background:#1f2937;color:#f3f4f6;padding:1rem;border-radius:8px;overflow-x:auto;margin:0 0 1rem}.article-content[data-astro-cid-7jjqptxk] pre code{background:none;padding:0;color:inherit}.article-content[data-astro-cid-7jjqptxk] blockquote{border-left:3px solid var(--color-primary);padding-left:1rem;margin:0 0 1rem;color:var(--text-secondary);font-style:italic}.article-content[data-astro-cid-7jjqptxk] img{max-width:100%;border-radius:8px;margin:1rem 0}.article-content[data-astro-cid-7jjqptxk] a{color:var(--color-primary);text-decoration:underline}.article-tags[data-astro-cid-7jjqptxk]{display:flex;align-items:center;gap:.4rem;margin-top:2rem;padding-top:1rem;border-top:1px solid var(--border-color)}.tags-label[data-astro-cid-7jjqptxk]{font-size:.85rem;color:var(--text-muted)}.tag[data-astro-cid-7jjqptxk]{font-size:.75rem;background:var(--color-primary-light);color:var(--color-primary);padding:.15rem .5rem;border-radius:4px}.article-comments[data-astro-cid-7jjqptxk]{margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid var(--border-color)}.comments-title[data-astro-cid-7jjqptxk]{font-size:1.1rem;font-weight:600;margin:0 0 1rem;color:var(--text-primary)}@media(max-width:640px){.article-title[data-astro-cid-7jjqptxk]{font-size:1.25rem}.article-content[data-astro-cid-7jjqptxk]{font-size:.9rem}}
+</style></head> <body> <!-- ============================================================ --> <!-- 导航栏 --> <!-- ============================================================ --> <header class="site-header"> <div class="header-inner"> <a href="/" class="site-logo"> <span class="logo-icon">&lt;/&gt;</span> <span class="logo-text">技术博客</span> </a> <!-- 汉堡菜单按钮（移动端） --> <button class="menu-toggle" aria-label="切换菜单" type="button"> <span class="menu-bar"></span> <span class="menu-bar"></span> <span class="menu-bar"></span> </button> <!-- 主导航 --> <nav class="main-nav" id="mainNav"> <ul class="nav-list"> <li class="nav-item"> <a href="/" class="nav-link"> 首页 </a> </li><li class="nav-item"> <a href="/blog?category=office" class="nav-link active"> 办公教程 </a> </li><li class="nav-item"> <a href="/blog?category=programming" class="nav-link active"> 编程学习 </a> </li><li class="nav-item"> <a href="/blog?category=software" class="nav-link active"> 软件安装 </a> </li><li class="nav-item"> <a href="/blog?category=computer" class="nav-link active"> 电脑问题 </a> </li><li class="nav-item"> <a href="/resources" class="nav-link"> 资源下载 </a> </li> </ul> </nav> <!-- 右侧操作区 --> <div class="header-actions"> <!-- 搜索按钮 --> <a href="/search" class="action-btn" aria-label="搜索"> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"> <circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path> </svg> </a> <!-- 深色模式切换 --> <button id="darkModeToggle" class="action-btn" aria-label="切换深色模式" type="button"> <!-- 太阳图标（亮色模式） --> <svg id="sunIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"> <circle cx="12" cy="12" r="5"></circle><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path> </svg> <!-- 月亮图标（深色模式） --> <svg id="moonIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"> <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path> </svg> </button> <!-- 用户登录/注册组件（暂时隐藏） --> <!-- <Identity /> --> </div> </div> </header> <!-- ============================================================ --> <!-- 主内容区 --> <!-- ============================================================ --> <main class="main-content"> <!-- 广告位：未来可在此插入广告代码 --> <!-- 广告位：例如 Google AdSense 或 Carbon Ads 的脚本 -->   <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Git 常用命令清单：新手必看的版本控制指南",
+  "description": "Git 是现代开发的必备技能。本文整理了 Git 最常用的命令和操作场景，从入门到日常使用，一篇就够了。",
+  "datePublished": "2026-05-23T00:00:00.000Z",
+  "url": "https://gsy20041016.com/blog/git-commands-guide/",
+  "author": {
+    "@type": "Person",
+    "name": "Chen Yongshun"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "电脑技术资源博客",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://gsy20041016.com/favicon.svg"
+    }
+  }
+}</script> <article class="article-detail" data-astro-cid-7jjqptxk> <!-- 文章元信息 --> <header class="article-header" data-astro-cid-7jjqptxk> <div class="article-meta-top" data-astro-cid-7jjqptxk> <a href="/blog?category=programming" class="article-category" data-astro-cid-7jjqptxk> 编程学习 </a>  </div> <h1 class="article-title" data-astro-cid-7jjqptxk>Git 常用命令清单：新手必看的版本控制指南</h1> <div class="article-meta" data-astro-cid-7jjqptxk> <time datetime="2026-05-23T00:00:00.000Z" data-astro-cid-7jjqptxk> 2026年5月23日 </time> </div> </header> <!-- 缩略图 -->  <!-- 文章正文 --> <div class="article-content" data-astro-cid-7jjqptxk> <p>Git 是目前世界上最流行的版本控制工具，无论是个人开发者还是团队协作，Git 都是必须掌握的基础技能。但 Git 的命令很多，新手经常不知道从何学起。</p>
+<p>本文不追求面面俱到，而是整理出<strong>日常开发中最常用的 Git 命令</strong>，按使用场景分类，随查随用。</p>
+<h2 id="一基础配置">一、基础配置</h2>
+<p>安装 Git 后，第一件事是设置用户名和邮箱（提交代码时会用到）：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6A737D"># 设置全局用户名和邮箱</span></span>
+<span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> config</span><span style="color:#005CC5"> --global</span><span style="color:#032F62"> user.name</span><span style="color:#032F62"> "你的名字"</span></span>
+<span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> config</span><span style="color:#005CC5"> --global</span><span style="color:#032F62"> user.email</span><span style="color:#032F62"> "你的邮箱@example.com"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 查看当前配置</span></span>
+<span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> config</span><span style="color:#005CC5"> --list</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 设置默认分支名为 main</span></span>
+<span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> config</span><span style="color:#005CC5"> --global</span><span style="color:#032F62"> init.defaultBranch</span><span style="color:#032F62"> main</span></span></code></pre>
+<blockquote>
+<p><strong>小提醒</strong>：<code>--global</code> 表示全局配置，对所有仓库生效。如果不加 <code>--global</code>，则只对当前仓库生效。</p>
+</blockquote>
+<h2 id="二创建与克隆仓库">二、创建与克隆仓库</h2>
+<h3 id="初始化本地仓库">初始化本地仓库</h3>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6A737D"># 在当前目录初始化 Git 仓库</span></span>
+<span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> init</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 或者克隆远程仓库到本地</span></span>
+<span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> clone</span><span style="color:#032F62"> https://github.com/用户名/仓库名.git</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 克隆并指定本地目录名</span></span>
+<span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> clone</span><span style="color:#032F62"> https://github.com/用户名/仓库名.git</span><span style="color:#032F62"> my-project</span></span></code></pre>
+<h2 id="三日常操作流程">三、日常操作流程</h2>
+<p>这是每天使用频率最高的一组命令，建议熟练掌握：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6A737D"># 1. 查看当前文件状态</span></span>
+<span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> status</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 2. 将文件加入暂存区</span></span>
+<span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> add</span><span style="color:#032F62"> 文件名</span><span style="color:#6A737D">        # 添加指定文件</span></span>
+<span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> add</span><span style="color:#032F62"> .</span><span style="color:#6A737D">             # 添加所有变更文件</span></span>
+<span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> add</span><span style="color:#005CC5"> *</span><span style="color:#032F62">.js</span><span style="color:#6A737D">          # 添加所有 JS 文件</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 3. 提交到本地仓库</span></span>
+<span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> commit</span><span style="color:#005CC5"> -m</span><span style="color:#032F62"> "feat: 添加用户登录功能"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 4. 推送到远程仓库</span></span>
+<span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> push</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 5. 拉取远程最新代码</span></span>
+<span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> pull</span></span></code></pre>
+<blockquote>
+<p><strong>提交信息规范</strong>：建议使用约定式提交格式——<code>feat</code>（新功能）、<code>fix</code>（修复）、<code>docs</code>（文档）、<code>refactor</code>（重构）、<code>chore</code>（杂项）。例如：<code>fix: 修复登录页验证码不显示的问题</code>。</p>
+</blockquote>
+<h2 id="四分支管理">四、分支管理</h2>
+<p>分支是 Git 最强大的功能之一，让多人协作开发成为可能：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6A737D"># 查看分支</span></span>
+<span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> branch</span><span style="color:#6A737D">                    # 查看本地分支（* 表示当前分支）</span></span>
+<span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> branch</span><span style="color:#005CC5"> -r</span><span style="color:#6A737D">                 # 查看远程分支</span></span>
+<span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> branch</span><span style="color:#005CC5"> -a</span><span style="color:#6A737D">                 # 查看所有分支</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 创建与切换分支</span></span>
+<span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> branch</span><span style="color:#032F62"> feature-login</span><span style="color:#6A737D">      # 创建新分支</span></span>
+<span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> checkout</span><span style="color:#032F62"> feature-login</span><span style="color:#6A737D">    # 切换到该分支</span></span>
+<span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> checkout</span><span style="color:#005CC5"> -b</span><span style="color:#032F62"> feature-login</span><span style="color:#6A737D"> # 创建并切换（上面两步合并）</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 合并分支（常用）</span></span>
+<span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> checkout</span><span style="color:#032F62"> main</span><span style="color:#6A737D">             # 先切换到主分支</span></span>
+<span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> merge</span><span style="color:#032F62"> feature-login</span><span style="color:#6A737D">       # 将 feature-login 合并到当前分支</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 删除分支</span></span>
+<span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> branch</span><span style="color:#005CC5"> -d</span><span style="color:#032F62"> feature-login</span><span style="color:#6A737D">   # 删除本地分支</span></span>
+<span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> push</span><span style="color:#032F62"> origin</span><span style="color:#005CC5"> --delete</span><span style="color:#032F62"> feature-login</span><span style="color:#6A737D">  # 删除远程分支</span></span></code></pre>
+<p><strong>多人协作推荐流程：</strong></p>
+<ol>
+<li><code>git checkout -b feature-xxx</code> 从 main 创建功能分支</li>
+<li>在功能分支上开发、提交</li>
+<li><code>git checkout main &#x26;&#x26; git pull</code> 同步最新代码</li>
+<li><code>git merge feature-xxx</code> 合并回主分支</li>
+<li><code>git push</code> 推送到远程</li>
+</ol>
+<blockquote>
+<p><strong>分支命名规范</strong>：<code>feature/xxx</code>（新功能）、<code>fix/xxx</code>（修复）、<code>docs/xxx</code>（文档）。团队协作时统一命名规范，便于管理。</p>
+</blockquote>
+<h2 id="五查看历史与撤销">五、查看历史与撤销</h2>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6A737D"># 查看提交历史</span></span>
+<span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> log</span><span style="color:#6A737D">                 # 完整日志</span></span>
+<span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> log</span><span style="color:#005CC5"> --oneline</span><span style="color:#6A737D">       # 简洁日志（一行一个提交）</span></span>
+<span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> log</span><span style="color:#005CC5"> --graph</span><span style="color:#6A737D">         # 图形化显示分支结构</span></span>
+<span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> log</span><span style="color:#005CC5"> -p</span><span style="color:#6A737D">              # 显示每次提交的 diff</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 查看某次提交的具体内容</span></span>
+<span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> show</span><span style="color:#032F62"> 提交ID</span><span style="color:#6A737D">         # 查看某次提交的变更</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 撤销操作</span></span>
+<span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> checkout</span><span style="color:#005CC5"> --</span><span style="color:#032F62"> 文件名</span><span style="color:#6A737D">    # 撤销工作区的修改（慎用，会丢失未暂存的修改）</span></span>
+<span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> reset</span><span style="color:#032F62"> HEAD</span><span style="color:#032F62"> 文件名</span><span style="color:#6A737D">     # 从暂存区移出（保留工作区修改）</span></span>
+<span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> reset</span><span style="color:#005CC5"> --soft</span><span style="color:#032F62"> HEAD~1</span><span style="color:#6A737D">   # 撤销最近一次 commit，保留修改</span></span>
+<span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> reset</span><span style="color:#005CC5"> --hard</span><span style="color:#032F62"> HEAD~1</span><span style="color:#6A737D">   # 彻底撤销最近一次 commit 和修改（不可恢复！）</span></span></code></pre>
+<blockquote>
+<p><strong>安全撤销</strong>：如果不确定操作后果，不要使用 <code>--hard</code>。推荐用 <code>git revert 提交ID</code> 来撤销，它会创建一个新的”反向提交”，不会丢失历史。</p>
+</blockquote>
+<h2 id="六远程仓库操作">六、远程仓库操作</h2>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6A737D"># 查看远程仓库</span></span>
+<span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> remote</span><span style="color:#005CC5"> -v</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 添加远程仓库</span></span>
+<span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> remote</span><span style="color:#032F62"> add</span><span style="color:#032F62"> origin</span><span style="color:#032F62"> https://github.com/用户名/仓库名.git</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 推送到远程（首次需要设置上游分支）</span></span>
+<span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> push</span><span style="color:#005CC5"> -u</span><span style="color:#032F62"> origin</span><span style="color:#032F62"> main</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 之后只需要</span></span>
+<span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> push</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 拉取远程更新</span></span>
+<span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> pull</span><span style="color:#6A737D">                    # 自动合并</span></span>
+<span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> fetch</span><span style="color:#6A737D">                   # 只下载不合并（手动合并）</span></span></code></pre>
+<h2 id="七工作中常用的组合场景">七、工作中常用的组合场景</h2>
+<h3 id="场景-1暂存当前工作">场景 1：暂存当前工作</h3>
+<p>开发到一半，需要切换到其他分支处理紧急问题：</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> stash</span><span style="color:#6A737D">                 # 暂存当前工作区修改</span></span>
+<span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> checkout</span><span style="color:#032F62"> main</span><span style="color:#6A737D">         # 切换到 main 分支处理紧急问题</span></span>
+<span class="line"><span style="color:#6A737D"># ... 处理完后 ...</span></span>
+<span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> checkout</span><span style="color:#032F62"> feature-xxx</span><span style="color:#6A737D">  # 回到开发分支</span></span>
+<span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> stash</span><span style="color:#032F62"> pop</span><span style="color:#6A737D">             # 恢复暂存的工作</span></span></code></pre>
+<h3 id="场景-2解决合并冲突">场景 2：解决合并冲突</h3>
+<p>合并时提示”CONFLICT”（冲突），不要慌：</p>
+<ol>
+<li>打开冲突文件，搜索 <code>&#x3C;&#x3C;&#x3C;&#x3C;&#x3C;&#x3C;&#x3C;</code>、<code>=======</code>、<code>>>>>>>></code> 标记</li>
+<li>手动修改冲突区域，删除标记符号</li>
+<li>保存文件 → <code>git add</code> → <code>git commit</code></li>
+</ol>
+<h3 id="场景-3修改最近一次提交信息">场景 3：修改最近一次提交信息</h3>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6A737D"># 修改最近一次 commit 的信息</span></span>
+<span class="line"><span style="color:#6F42C1">git</span><span style="color:#032F62"> commit</span><span style="color:#005CC5"> --amend</span><span style="color:#005CC5"> -m</span><span style="color:#032F62"> "新的提交信息"</span></span></code></pre>
+<blockquote>
+<p><strong>重要</strong>：已经推送到远程的分支，不要随意 <code>amend</code> 或 <code>reset</code>，会导致提交历史不一致。如果必须修改已推送的提交，使用 <code>git push --force-with-lease</code>（比 <code>--force</code> 更安全）。</p>
+</blockquote>
+<hr>
+<p>Git 的学习曲线确实有些陡峭，但日常开发中真正高频使用的命令并不多。建议先把上面这些命令练熟，遇到更复杂的场景时再去查文档。动手实践是最好的学习方式——创建一个测试仓库，反复尝试各种操作，很快就会得心应手。</p> </div> <!-- 标签列表 --> <div class="article-tags" data-astro-cid-7jjqptxk> <span class="tags-label" data-astro-cid-7jjqptxk>标签：</span> <span class="tag" data-astro-cid-7jjqptxk>Git</span><span class="tag" data-astro-cid-7jjqptxk>版本控制</span><span class="tag" data-astro-cid-7jjqptxk>新手教程</span><span class="tag" data-astro-cid-7jjqptxk>命令行</span> </div> <!-- 广告位：未来可插入广告代码 --> <!-- 广告位：正文结束后可插入相关广告 --> <!-- ========================================================== --> <!-- Giscus 评论区 --> <!-- ========================================================== --> <div class="article-comments" data-astro-cid-7jjqptxk> <h3 class="comments-title" data-astro-cid-7jjqptxk>评论交流</h3> <div class="giscus-comments"></div> <script type="module">const o="xiangfuhua/gsy20041016",c="R_kgDOSihhvA",u="Announcements",d="DIC_kwDOSihhvM4C9cB_";function s(a="light"){const e=document.querySelector(".giscus-comments");if(!e)return;const i=document.querySelector("script[giscus-widget]"),r=e.querySelector("iframe");i&&i.remove(),r&&r.remove();const t=document.createElement("script");t.setAttribute("giscus-widget",""),t.src="https://giscus.app/client.js",t.setAttribute("data-repo",o),t.setAttribute("data-repo-id",c),t.setAttribute("data-category",u),t.setAttribute("data-category-id",d),t.setAttribute("data-mapping","pathname"),t.setAttribute("data-strict","0"),t.setAttribute("data-reactions-enabled","1"),t.setAttribute("data-emit-metadata","0"),t.setAttribute("data-input-position","bottom"),t.setAttribute("data-theme",a),t.setAttribute("data-lang","zh-CN"),t.setAttribute("data-loading","lazy"),t.setAttribute("crossorigin","anonymous"),t.async=!0,e.appendChild(t)}function n(){return document.documentElement.getAttribute("data-theme")==="dark"?"dark":"light"}s(n());const m=new MutationObserver(a=>{a.forEach(e=>{e.attributeName==="data-theme"&&s(n())})});m.observe(document.documentElement,{attributes:!0});</script> </div> </article>  </main> <!-- ============================================================ --> <!-- 页脚 --> <!-- ============================================================ --> <footer class="site-footer"> <!-- 页脚广告位 --> <!-- 广告位：未来可插入广告代码 --> <div class="footer-inner"> <div class="footer-links"> <a href="/">首页</a> <a href="/blog">全部文章</a> <a href="/resources">资源下载</a> <a href="/pages/about">关于我</a> </div> <div class="footer-copyright"> <p>&copy; 2026 电脑技术资源博客 — 免费分享，共同进步</p> <!-- 广告位：未来可插入广告代码 --> </div> </div> <!-- 回到顶部按钮 --> <button id="backToTop" class="back-to-top" aria-label="回到顶部" type="button"> <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"> <path d="m18 15-6-6-6 6"></path> </svg> </button> </footer>  <script type="module">(function(){function c(){return document.documentElement.getAttribute("data-theme")||"light"}function n(e){document.documentElement.setAttribute("data-theme",e),localStorage.setItem("theme",e),r(e)}function s(){const t=c()==="dark"?"light":"dark";n(t)}function r(e){const t=document.getElementById("sunIcon"),d=document.getElementById("moonIcon");t&&d&&(e==="dark"?(t.style.display="none",d.style.display="block"):(t.style.display="block",d.style.display="none"))}function a(){const e=localStorage.getItem("theme");if(e==="dark"||e==="light"){n(e);return}const t=window.matchMedia("(prefers-color-scheme: dark)").matches;n(t?"dark":"light")}document.readyState==="loading"?document.addEventListener("DOMContentLoaded",a):a(),document.addEventListener("DOMContentLoaded",function(){const e=document.getElementById("darkModeToggle");e&&e.addEventListener("click",s)}),window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",function(e){localStorage.getItem("theme")||n(e.matches?"dark":"light")})})();const i=document.querySelector(".menu-toggle"),o=document.getElementById("mainNav");i&&o&&(i.addEventListener("click",()=>{o.classList.toggle("open")}),o.querySelectorAll(".nav-link").forEach(c=>{c.addEventListener("click",()=>{o.classList.remove("open")})}));const l=document.getElementById("backToTop");l&&(window.addEventListener("scroll",()=>{l.classList.toggle("visible",window.scrollY>400)}),l.addEventListener("click",()=>{window.scrollTo({top:0,behavior:"smooth"})}));</script></body></html> 

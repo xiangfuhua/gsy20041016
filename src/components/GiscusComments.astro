@@ -36,14 +36,16 @@
     container.appendChild(script);
   }
 
-  const currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
-  loadGiscus(currentTheme);
+  function getGiscusTheme() {
+    return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+  }
+
+  loadGiscus(getGiscusTheme());
 
   const observer = new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {
-      if (mutation.attributeName === 'class') {
-        const newTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
-        loadGiscus(newTheme);
+      if (mutation.attributeName === 'data-theme') {
+        loadGiscus(getGiscusTheme());
       }
     });
   });

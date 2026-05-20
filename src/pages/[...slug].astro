@@ -15,7 +15,7 @@ import { SITE_DESCRIPTION } from '@/consts';
 export async function getStaticPaths() {
   const pages = await getCollection('pages');
   return pages.map((page) => ({
-    params: { slug: page.id.replace(/\/index$/, '') },
+    params: { slug: page.id.replace(/\/index$/, '').replace(/\.(md|mdx)$/, '') },
     props: { page },
   }));
 }
@@ -24,7 +24,7 @@ const { page } = Astro.props;
 const { title, description } = page.data;
 const { Content } = await page.render();
 ---
-<BaseLayout title={title} description={description || SITE_DESCRIPTION} currentPath={`/pages/${page.id.replace(/\/index$/, '')}`}>
+<BaseLayout title={title} description={description || SITE_DESCRIPTION} currentPath={`/pages/${page.id.replace(/\/index$/, '').replace(/\.(md|mdx)$/, '')}`}>
   <article class="generic-page">
     <h1 class="page-title">{title}</h1>
     <div class="page-content">

@@ -27,7 +27,7 @@ export async function GET(context) {
       pubDate: post.data.date,
       description: post.data.description,
       // 生成文章链接
-      link: `/blog/${post.id.replace(/\/index$/, '')}`,
+      link: `/blog/${post.id.replace(/\/index$/, '').replace(/\.(md|mdx)$/, '')}`,
     })),
     // 订阅源语言
     customData: `<language>zh-CN</language>`,
