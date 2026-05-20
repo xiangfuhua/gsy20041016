@@ -6,7 +6,7 @@ import pagefind from 'astro-pagefind';
 // https://astro.build/config
 export default defineConfig({
   // 站点 URL — 部署到 Netlify 后替换为实际域名
-  site: 'https://你的域名.netlify.app',
+  site: 'https://gsy20041016.com',
   // 静态生成模式（默认），无需 SSR
   output: 'static',
   // 启用 Markdown 与 MDX 支持

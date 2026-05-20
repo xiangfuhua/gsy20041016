@@ -2,6 +2,7 @@
 // ================================================================
 // 文章详情页 — blog/[...slug].astro
 // 显示：文章完整内容、标签列表、Giscus 评论区
+// 包含：JSON-LD 结构化数据（Article Schema）提升搜索引擎展示效果
 // ----------------------------------------------------------------
 // 使用 Astro Content Collections 获取文章内容
 // 通过 getCollection('blog') 查询 Slug 匹配的文章
@@ -9,6 +10,7 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 import GiscusComments from '../../components/GiscusComments.astro';
+import { SITE_NAME, SITE_AUTHOR, SITE_LOGO, resolveUrl } from '@/consts';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
@@ -30,8 +32,47 @@ const CATEGORY_NAMES: Record<string, string> = {
   computer: '电脑问题',
   resources: '资源下载',
 };
+
+// ================================================================
+// JSON-LD 结构化数据（Article Schema）
+// ================================================================
+const siteUrl = Astro.site;
+const articleUrl = siteUrl
+  ? new URL(Astro.url.pathname, siteUrl).toString()
+  : Astro.url.pathname;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": title,
+  "description": description,
+  "datePublished": date.toISOString(),
+  ...(heroImage ? { "image": resolveUrl(heroImage, siteUrl) } : {}),
+  "url": articleUrl,
+  "author": {
+    "@type": "Person",
+    "name": SITE_AUTHOR,
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": SITE_NAME,
+    "logo": {
+      "@type": "ImageObject",
+      "url": resolveUrl(SITE_LOGO, siteUrl),
+    },
+  },
+};
 ---
-<BaseLayout title={title} description={description} currentPath="/blog">
+<BaseLayout
+  title={title}
+  description={description}
+  currentPath="/blog"
+  ogImage={heroImage}
+  ogType="article"
+>
+  <!-- JSON-LD 结构化数据 -->
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd, null, 2)} />
+
   <article class="article-detail">
     <!-- 文章元信息 -->
     <header class="article-header">

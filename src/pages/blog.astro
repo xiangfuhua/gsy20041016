@@ -65,7 +65,7 @@ const pageTitle = activeCategory
   ? `${CATEGORY_NAMES[activeCategory]} - 文章列表`
   : '全部文章';
 ---
-<BaseLayout title={pageTitle} currentPath="/blog">
+<BaseLayout title={pageTitle} description="浏览所有技术文章，涵盖办公教程、编程学习、软件安装和电脑问题解决" currentPath="/blog">
   <div class="blog-page">
     <h1 class="page-title">
       {activeCategory ? CATEGORY_NAMES[activeCategory] : '全部文章'}

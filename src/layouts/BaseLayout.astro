@@ -1,23 +1,73 @@
 ---
 // ================================================================
 // BaseLayout — 全局布局组件
-// 包含：导航栏、Netlify Identity 登录/注册、深色模式切换、页脚
-// 修改导航菜单项只需编辑 NAV_ITEMS 数组
+// 功能：导航栏、SEO meta 标签、Netlify Identity、深色模式切换、页脚
+// ----------------------------------------------------------------
+// 使用说明：
+//   传入 title 即可自动生成完整的 SEO 头部
+//   通过 ogImage、canonical、noindex 等 props 控制高级 SEO 选项
 // ================================================================
+
 import '@/styles/global.css';
 import Identity from '@/components/Identity.astro';
+import { SITE_NAME, SITE_DESCRIPTION, DEFAULT_OG_IMAGE } from '@/consts';
 
 export interface Props {
+  /** 页面标题（自动格式化为 "页面标题 - 站点名称"） */
   title: string;
+  /** 页面描述（不传时使用站点默认描述） */
   description?: string;
   /** 当前页面路径，用于高亮导航菜单 */
   currentPath?: string;
+  /** Open Graph 分享图（完整 URL 或绝对路径），默认使用 DEFAULT_OG_IMAGE */
+  ogImage?: string;
+  /** Open Graph 类型：文章页用 "article"，其它用 "website" */
+  ogType?: 'website' | 'article';
+  /** 规范链接（可选），默认使用当前页面 URL */
+  canonical?: string;
+  /** 是否禁止搜索引擎索引此页面（默认 false，设为 true 则输出 noindex） */
+  noindex?: boolean;
 }
 
-const { title, description, currentPath = '' } = Astro.props;
+const {
+  title,
+  description,
+  currentPath = '',
+  ogImage,
+  ogType = 'website',
+  canonical,
+  noindex = false,
+} = Astro.props;
 
 // ================================================================
-// 导航菜单配置 — 在此增删菜单项
+// SEO 相关计算值
+// ================================================================
+
+/** 完整页面标题：首页只显示站点名称，其余页显示 "页面标题 - 站点名称" */
+const siteTitle = title === SITE_NAME ? title : `${title} - ${SITE_NAME}`;
+
+/** 页面描述（兜底使用站点默认描述） */
+const metaDescription = description || SITE_DESCRIPTION;
+
+/** Astro.site（从 astro.config.mjs 读取） */
+const siteUrl = Astro.site;
+
+/** 当前页面完整 URL */
+const currentPageUrl = new URL(Astro.url.pathname, siteUrl ?? 'https://example.com').toString();
+
+/** OG 图片完整 URL */
+const ogImagePath = ogImage || DEFAULT_OG_IMAGE;
+const ogImageUrl = ogImagePath.startsWith('http')
+  ? ogImagePath
+  : siteUrl
+    ? new URL(ogImagePath, siteUrl).toString()
+    : ogImagePath;
+
+/** 规范链接 */
+const canonicalUrl = canonical || currentPageUrl;
+
+// ================================================================
+// 导航菜单配置
 // ================================================================
 const NAV_ITEMS = [
   { label: '首页', href: '/' },
@@ -31,7 +81,6 @@ const NAV_ITEMS = [
 /** 判断当前菜单项是否处于高亮状态 */
 function isActive(href: string): boolean {
   if (href === '/') return currentPath === '/';
-  // 分类链接匹配起始路径
   return currentPath.startsWith(href.split('?')[0]);
 }
 ---
@@ -40,15 +89,30 @@ function isActive(href: string): boolean {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content={description || '电脑技术资源博客 — 免费分享实用教程与资源'} />
+  <meta name="description" content={metaDescription} />
   <meta name="theme-color" content="#1e3a8a" />
 
-  <!-- Open Graph 社交分享标签 -->
-  <meta property="og:title" content={title} />
-  <meta property="og:description" content={description || ''} />
-  <meta property="og:type" content="website" />
+  <!-- Open Graph / Facebook 社交分享标签 -->
+  <meta property="og:title" content={siteTitle} />
+  <meta property="og:description" content={metaDescription} />
+  <meta property="og:image" content={ogImageUrl} />
+  <meta property="og:url" content={currentPageUrl} />
+  <meta property="og:type" content={ogType} />
+  <meta property="og:site_name" content={SITE_NAME} />
 
-  <title>{title} | 电脑技术资源博客</title>
+  <!-- Twitter Card 标签 -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={siteTitle} />
+  <meta name="twitter:description" content={metaDescription} />
+  <meta name="twitter:image" content={ogImageUrl} />
+
+  <!-- 规范链接（防止重复内容影响 SEO） -->
+  <link rel="canonical" href={canonicalUrl} />
+
+  <!-- 搜索引擎索引控制 -->
+  {noindex && <meta name="robots" content="noindex,follow" />}
+
+  <title>{siteTitle}</title>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
   <!-- Pagefind 搜索库（由 astro-pagefind 注入） -->

@@ -10,6 +10,7 @@
 // ================================================================
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
+import { SITE_DESCRIPTION } from '@/consts';
 
 export async function getStaticPaths() {
   const pages = await getCollection('pages');
@@ -23,7 +24,7 @@ const { page } = Astro.props;
 const { title, description } = page.data;
 const { Content } = await page.render();
 ---
-<BaseLayout title={title} description={description} currentPath={`/pages/${page.id.replace(/\/index$/, '')}`}>
+<BaseLayout title={title} description={description || SITE_DESCRIPTION} currentPath={`/pages/${page.id.replace(/\/index$/, '')}`}>
   <article class="generic-page">
     <h1 class="page-title">{title}</h1>
     <div class="page-content">
