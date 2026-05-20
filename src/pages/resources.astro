@@ -1,0 +1,54 @@
+---
+// ================================================================
+// 资源库页面 — resources.astro
+// 展示所有可下载资源，网格布局
+// ----------------------------------------------------------------
+// 可通过 ?category=xxx 查询参数筛选分类
+// ================================================================
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PostGrid from '@/components/PostGrid.astro';
+import { getCollection } from 'astro:content';
+
+// 获取所有资源并按日期排序
+const allResources = await getCollection('resources');
+const sortedResources = allResources.sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+---
+<BaseLayout title="资源下载" currentPath="/resources">
+  <div class="resources-page">
+    <h1 class="page-title">资源下载</h1>
+    <p class="page-desc">精选实用工具与学习资源，免费下载。</p>
+
+    <!-- 资源统计 -->
+    <div class="resource-stats">
+      <span>共 {sortedResources.length} 个资源</span>
+    </div>
+
+    <!-- 资源网格 -->
+    <PostGrid posts={sortedResources} type="resource" />
+  </div>
+</BaseLayout>
+
+<style>
+  .resources-page {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .page-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 0.3rem;
+  }
+  .page-desc {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin: 0 0 0.5rem;
+  }
+  .resource-stats {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 1.2rem;
+  }
+</style>

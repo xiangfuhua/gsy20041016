@@ -1,0 +1,113 @@
+---
+// ================================================================
+// Card — 可复用的功能导航卡片组件
+// 用于首页展示 5 个功能入口，带悬浮动效
+// 使用方式：
+//   <Card icon="📘" title="办公教程" href="/blog?category=office" />
+//   可自定义图标（传入 HTML 字符串或 emoji）
+// ================================================================
+
+export interface Props {
+  /** 卡片图标 — 可以是 emoji 或 SVG HTML 字符串 */
+  icon: string;
+  /** 卡片标题 */
+  title: string;
+  /** 卡片描述（可选） */
+  description?: string;
+  /** 点击跳转链接 */
+  href: string;
+}
+
+const { icon, title, description, href } = Astro.props;
+---
+
+<a href={href} class="tech-card">
+  <div class="card-icon">
+    <!-- 使用 set:html 支持传入 SVG 代码 -->
+    <span set:html={icon}></span>
+  </div>
+  <h3 class="card-title">{title}</h3>
+  {description && <p class="card-desc">{description}</p>}
+  <span class="card-arrow">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M5 12h14M12 5l7 7-7 7"/>
+    </svg>
+  </span>
+</a>
+
+<style>
+  .tech-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 1.5rem 1rem;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--text-primary);
+    transition: all 0.25s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .tech-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--color-primary);
+    transform: scaleX(0);
+    transition: transform 0.25s ease;
+    transform-origin: left;
+  }
+  .tech-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(30, 58, 138, 0.12);
+    border-color: var(--color-primary);
+  }
+  .tech-card:hover::before {
+    transform: scaleX(1);
+  }
+  .card-icon {
+    font-size: 2rem;
+    margin-bottom: 0.6rem;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-primary-light);
+    border-radius: 12px;
+    color: var(--color-primary);
+    transition: transform 0.25s ease;
+  }
+  .tech-card:hover .card-icon {
+    transform: scale(1.1);
+  }
+  .card-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 0.3rem;
+    color: var(--text-primary);
+  }
+  .card-desc {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.4;
+  }
+  .card-arrow {
+    margin-top: 0.6rem;
+    color: var(--color-primary);
+    opacity: 0;
+    transform: translateX(-8px);
+    transition: all 0.25s ease;
+  }
+  .tech-card:hover .card-arrow {
+    opacity: 1;
+    transform: translateX(0);
+  }
+</style>

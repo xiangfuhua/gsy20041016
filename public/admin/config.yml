@@ -1,0 +1,218 @@
+# Decap CMS (原 Netlify CMS) 配置文件
+# 在线编辑地址：https://你的域名.netlify.app/admin/
+
+# -------- 后端配置 --------
+# 使用 GitHub 仓库作为内容存储后端
+backend:
+  name: git-gateway
+  branch: main
+  # 启用 Netlify Identity 进行用户认证
+  # 需在 Netlify 后台开启 Identity 服务并配置 Git Gateway
+
+# -------- 本地预览配置 --------
+# 在 Decap CMS 中预览内容时的 URL
+display_url: https://你的域名.netlify.app
+logo_url: /favicon.ico
+
+# -------- 媒体文件 --------
+media_folder: "public/images/uploads"       # 上传图片存放位置（相对于项目根目录）
+public_folder: "/images/uploads"            # 图片在网站中的公开路径
+media_library:
+  name: uploadcare                          # 可选：集成 Uploadcare 图片处理服务
+  config:
+    publicKey: your-uploadcare-public-key   # 替换为你的 Uploadcare Public Key
+
+# -------- 编辑工作流 --------
+publish_mode: editorial_workflow            # 启用草稿/审核/发布工作流
+
+# -------- 本地化界面语言 --------
+locale: 'zh_Hans'                           # 简体中文界面
+
+# ================================================================
+# 内容集合定义
+# ================================================================
+collections:
+  # ===============================================================
+  # 1. 博客文章集合
+  # ===============================================================
+  - label: "博客文章"
+    name: "blog"
+    label_singular: "文章"
+    folder: "src/content/blog"              # Markdown 文件存放目录
+    create: true                            # 允许新建
+    delete: true                            # 允许删除
+    editor:
+      preview: true                         # 启用实时预览
+    # 文章路径格式：/:slug
+    path: "{{slug}}/index"
+    media_folder: "/images/uploads/blog"    # 本集合媒体上传目录
+    public_folder: "/images/uploads/blog"
+    # 按发布日期倒序排列
+    sort: "date:desc"
+    # 字段定义 — 每篇文章的 Frontmatter + 正文
+    fields:
+      - label: "标题"
+        name: "title"
+        widget: "string"
+        required: true
+      - label: "文章摘要"
+        name: "description"
+        widget: "text"
+        required: true
+        hint: "简短描述文章内容，会显示在列表页和搜索引擎结果中"
+      - label: "发布日期"
+        name: "date"
+        widget: "datetime"
+        required: true
+        date_format: "YYYY-MM-DD"
+        time_format: false
+      - label: "缩略图"
+        name: "heroImage"
+        widget: "image"
+        required: false
+        hint: "文章封面图，建议尺寸 1200×630"
+      - label: "分类"
+        name: "category"
+        widget: "select"
+        required: true
+        options:
+          - { label: "办公教程", value: "office" }
+          - { label: "编程学习", value: "programming" }
+          - { label: "软件安装", value: "software" }
+          - { label: "电脑问题", value: "computer" }
+          - { label: "资源下载", value: "resources" }
+        hint: "选择文章所属分类"
+      - label: "标签"
+        name: "tags"
+        widget: "list"
+        required: false
+        hint: "添加标签，用回车分隔"
+      - label: "是否付费内容"
+        name: "premium"
+        widget: "boolean"
+        default: false
+        required: false
+        hint: "开启后标记为付费文章（目前为预留字段，默认关闭）"
+      - label: "正文内容"
+        name: "body"
+        widget: "markdown"
+        required: true
+        hint: "使用 Markdown 格式编写文章正文"
+
+  # ===============================================================
+  # 2. 资源下载集合
+  # ===============================================================
+  - label: "资源下载"
+    name: "resources"
+    label_singular: "资源"
+    folder: "src/content/resources"
+    create: true
+    delete: true
+    editor:
+      preview: true
+    path: "{{slug}}/index"
+    media_folder: "/images/uploads/resources"
+    public_folder: "/images/uploads/resources"
+    sort: "date:desc"
+    fields:
+      - label: "资源名称"
+        name: "title"
+        widget: "string"
+        required: true
+      - label: "资源简介"
+        name: "description"
+        widget: "text"
+        required: true
+        hint: "简短说明该资源的用途和内容"
+      - label: "发布日期"
+        name: "date"
+        widget: "datetime"
+        required: true
+        date_format: "YYYY-MM-DD"
+        time_format: false
+      - label: "缩略图"
+        name: "heroImage"
+        widget: "image"
+        required: false
+      - label: "分类"
+        name: "category"
+        widget: "select"
+        required: true
+        options:
+          - { label: "办公教程", value: "office" }
+          - { label: "编程学习", value: "programming" }
+          - { label: "软件安装", value: "software" }
+          - { label: "电脑问题", value: "computer" }
+          - { label: "资源下载", value: "resources" }
+      - label: "标签"
+        name: "tags"
+        widget: "list"
+        required: false
+      - label: "是否付费资源"
+        name: "premium"
+        widget: "boolean"
+        default: false
+        required: false
+        hint: "开启后标记为付费资源（预留字段，默认关闭）"
+      - label: "下载链接"
+        name: "downloadUrl"
+        widget: "string"
+        required: false
+        hint: "资源下载直链或网盘链接"
+      - label: "文件大小"
+        name: "fileSize"
+        widget: "string"
+        required: false
+        hint: "例如：15MB、2.3GB"
+      - label: "版本号"
+        name: "version"
+        widget: "string"
+        required: false
+        hint: "资源版本号，例如 v2.1"
+      - label: "资源详情"
+        name: "body"
+        widget: "markdown"
+        required: true
+
+  # ===============================================================
+  # 3. 独立页面（关于我、友情链接、隐私政策等）
+  # ===============================================================
+  - label: "独立页面"
+    name: "pages"
+    label_singular: "页面"
+    folder: "src/content/pages"
+    create: true
+    delete: true
+    editor:
+      preview: true
+    path: "{{slug}}/index"
+    media_folder: "/images/uploads/pages"
+    public_folder: "/images/uploads/pages"
+    # 页面不排序，手动控制顺序
+    fields:
+      - label: "页面标题"
+        name: "title"
+        widget: "string"
+        required: true
+      - label: "页面描述"
+        name: "description"
+        widget: "text"
+        required: false
+        hint: "用于 SEO 描述"
+      - label: "排序权重"
+        name: "order"
+        widget: "number"
+        required: false
+        default: 0
+        hint: "数字越小越靠前"
+      - label: "正文内容"
+        name: "body"
+        widget: "markdown"
+        required: true
+
+# ================================================================
+# 搜索配置
+# ================================================================
+site_url: https://你的域名.netlify.app
+search: true
+search_index: "search/index.json"

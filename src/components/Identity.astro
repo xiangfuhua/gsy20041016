@@ -1,0 +1,148 @@
+---
+// ================================================================
+// Identity — Netlify Identity 用户认证组件
+// 处理用户登录、注册和登出 UI
+// ----------------------------------------------------------------
+// 前置条件：
+//   1. 在 Netlify 后台开启 Identity 服务
+//   2. 在 Netlify 后台开启 Git Gateway（用于 Decap CMS）
+//   3. 页面引入了 netlify-identity-widget.js（在 BaseLayout 中已引入）
+// ================================================================
+---
+
+<div id="netlifyIdentity" class="identity-widget">
+  <!-- 未登录状态：显示登录/注册按钮 -->
+  <button id="identityLoginBtn" class="identity-btn identity-login" type="button">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+      <polyline points="10 17 15 12 10 7"/>
+      <line x1="15" y1="12" x2="3" y2="12"/>
+    </svg>
+    <span>登录</span>
+  </button>
+  <!-- 已登录状态：显示用户头像和登出按钮 -->
+  <div id="identityLoggedIn" class="identity-logged-in" style="display:none;">
+    <span id="identityUserAvatar" class="identity-avatar"></span>
+    <button id="identityLogoutBtn" class="identity-btn identity-logout" type="button">登出</button>
+  </div>
+</div>
+
+<style>
+  .identity-widget {
+    display: flex;
+    align-items: center;
+  }
+  .identity-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.35rem 0.7rem;
+    font-size: 0.8rem;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-primary);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  .identity-btn:hover {
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+  }
+  .identity-logged-in {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .identity-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--color-primary-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    color: var(--color-primary);
+    font-weight: 600;
+    overflow: hidden;
+  }
+  .identity-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+</style>
+
+<script>
+  // ================================================================
+  // Netlify Identity Widget 客户端逻辑
+  // 文档：https://docs.netlify.com/visitor-access/identity/
+  // ================================================================
+
+  (function () {
+    // 等待 netlify-identity-widget 加载完成
+    const checkIdentity = setInterval(() => {
+      if (window.netlifyIdentity) {
+        clearInterval(checkIdentity);
+        initIdentity();
+      }
+    }, 100);
+    // 10 秒超时
+    setTimeout(() => clearInterval(checkIdentity), 10000);
+
+    function initIdentity() {
+      const identity = window.netlifyIdentity;
+      const loginBtn = document.getElementById('identityLoginBtn');
+      const logoutBtn = document.getElementById('identityLogoutBtn');
+      const loggedIn = document.getElementById('identityLoggedIn');
+      const loginArea = document.getElementById('identityLoginBtn');
+      const avatar = document.getElementById('identityUserAvatar');
+
+      // --- 用户登录 ---
+      if (loginBtn) {
+        loginBtn.addEventListener('click', () => {
+          identity.open('login'); // 弹出登录/注册框
+        });
+      }
+
+      // --- 用户登出 ---
+      if (logoutBtn) {
+        logoutBtn.addEventListener('click', () => {
+          identity.logout();
+        });
+      }
+
+      // --- 监听认证状态变化 ---
+      identity.on('login', (user) => {
+        updateUI(user);
+        // 登录成功后关闭弹窗
+        identity.close();
+      });
+
+      identity.on('logout', () => {
+        updateUI(null);
+      });
+
+      // --- 初始化 UI ---
+      const currentUser = identity.currentUser();
+      updateUI(currentUser);
+
+      function updateUI(user) {
+        if (user && loginBtn && loggedIn) {
+          loginBtn.style.display = 'none';
+          loggedIn.style.display = 'flex';
+          if (avatar) {
+            const email = user.email || '';
+            // 显示用户邮箱首字母作为头像
+            avatar.textContent = email.charAt(0).toUpperCase();
+          }
+        } else if (loginBtn && loggedIn) {
+          loginBtn.style.display = 'flex';
+          loggedIn.style.display = 'none';
+        }
+      }
+    }
+  })();
+</script>

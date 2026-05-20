@@ -1,0 +1,243 @@
+/* ================================================================
+   global.css — 全局样式
+   科技简约风，全中文界面设计
+   主色：#1e3a8a（深邃蓝）
+   ================================================================ */
+
+/* -------- CSS 变量（亮色模式） -------- */
+:root,
+[data-theme='light'] {
+  --color-primary: #1e3a8a;
+  --color-primary-light: #eef2ff;
+  --color-primary-dark: #1e3a8a;
+
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --bg-code: #f1f5f9;
+
+  --text-primary: #1f2937;
+  --text-secondary: #4b5563;
+  --text-muted: #9ca3af;
+
+  --border-color: #e5e7eb;
+  --code-bg: #f1f5f9;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+}
+
+/* -------- CSS 变量（深色模式） -------- */
+[data-theme='dark'] {
+  --color-primary: #60a5fa;
+  --color-primary-light: #1e293b;
+  --color-primary-dark: #3b82f6;
+
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-code: #1e293b;
+
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+
+  --border-color: #334155;
+  --code-bg: #1e293b;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+}
+
+/* -------- 全局重置 -------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
+    'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial,
+    sans-serif;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--text-primary);
+  background: var(--bg-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* ================================================================
+   科技卡片样式 .tech-card
+   用于 Card 组件，支持悬浮动效
+   ================================================================ */
+.tech-card {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+
+.tech-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(30, 58, 138, 0.12);
+  border-color: var(--color-primary);
+}
+
+/* ================================================================
+   紧凑布局 .compact-query
+   用于需要紧凑排列的内容区块
+   ================================================================ */
+.compact-query {
+  margin-bottom: 1.2rem;
+}
+
+.compact-query > * + * {
+  margin-top: 0.5rem;
+}
+
+/* ================================================================
+   通用链接样式
+   ================================================================ */
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+a:hover {
+  opacity: 0.85;
+}
+
+/* ================================================================
+   图片响应式
+   ================================================================ */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ================================================================
+   标题样式
+   ================================================================ */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-primary);
+  line-height: 1.35;
+  font-weight: 700;
+}
+
+/* ================================================================
+   代码块样式
+   ================================================================ */
+code {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: 0.85em;
+}
+
+pre {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+/* ================================================================
+  Pagefind 搜索结果样式覆盖
+  使搜索界面与网站风格一致
+  ================================================================ */
+.search-result-item {
+  display: block;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  margin-bottom: 0.6rem;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.search-result-item:hover {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.search-result-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 0.25rem;
+}
+
+.search-result-excerpt {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.search-loading,
+.search-no-results {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* ================================================================
+   Giscus 评论区深色模式适配
+   ================================================================ */
+[data-theme='dark'] .giscus-frame {
+  filter: invert(0.9) hue-rotate(180deg);
+}
+
+/* ================================================================
+   响应式全局调整
+   ================================================================ */
+@media (max-width: 768px) {
+  html {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 640px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+/* 选中文字颜色 */
+::selection {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}

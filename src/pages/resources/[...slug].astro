@@ -1,0 +1,235 @@
+---
+// ================================================================
+// 资源详情页 — resources/[...slug].astro
+// 显示：资源介绍、属性信息（版本、大小）、下载按钮
+// ----------------------------------------------------------------
+// 下载按钮目前为静态链接，未来可替换为付费购买按钮
+// ================================================================
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const resources = await getCollection('resources');
+  return resources.map((res) => ({
+    params: { slug: res.id.replace(/\/index$/, '') },
+    props: { resource: res },
+  }));
+}
+
+const { resource } = Astro.props;
+const { title, description, date, category, tags, premium, downloadUrl, fileSize, version, heroImage } = resource.data;
+const { Content } = await resource.render();
+
+const CATEGORY_NAMES: Record<string, string> = {
+  office: '办公教程',
+  programming: '编程学习',
+  software: '软件安装',
+  computer: '电脑问题',
+  resources: '资源下载',
+};
+---
+<BaseLayout title={title} description={description} currentPath="/resources">
+  <article class="resource-detail">
+    <header class="resource-header">
+      <div class="resource-meta-top">
+        {category && (
+          <span class="resource-category">{CATEGORY_NAMES[category] || category}</span>
+        )}
+        {premium && <span class="resource-premium">付费资源</span>}
+      </div>
+      <h1 class="resource-title">{title}</h1>
+      <p class="resource-desc">{description}</p>
+      <div class="resource-meta">
+        <time datetime={date.toISOString()}>
+          {date.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' })}
+        </time>
+        {version && <span>版本：{version}</span>}
+        {fileSize && <span>大小：{fileSize}</span>}
+      </div>
+    </header>
+
+    <!-- 缩略图 -->
+    {heroImage && (
+      <div class="resource-hero">
+        <img src={heroImage} alt={title} />
+      </div>
+    )}
+
+    <!-- 下载按钮区域 -->
+    <div class="resource-download-area">
+      {downloadUrl ? (
+        <a
+          href={downloadUrl}
+          class="download-btn"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          下载资源
+        </a>
+      ) : (
+        <p class="no-download">下载链接暂未开放，敬请期待。</p>
+      )}
+      <!-- 付费扩展：此处可替换为 Lemon Squeezy 购买按钮 -->
+    </div>
+
+    <!-- 标签 -->
+    {tags && tags.length > 0 && (
+      <div class="resource-tags">
+        <span class="tags-label">标签：</span>
+        {tags.map((tag) => (
+          <span class="tag">{tag}</span>
+        ))}
+      </div>
+    )}
+
+    <!-- 资源详情正文 -->
+    <div class="resource-content">
+      <h2 class="content-subtitle">资源介绍</h2>
+      <Content />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .resource-detail {
+    max-width: 780px;
+    margin: 0 auto;
+  }
+  .resource-header {
+    margin-bottom: 1.5rem;
+  }
+  .resource-meta-top {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .resource-category {
+    font-size: 0.75rem;
+    color: var(--color-primary);
+    background: var(--color-primary-light);
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+  }
+  .resource-premium {
+    font-size: 0.75rem;
+    color: #fff;
+    background: #f59e0b;
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+  }
+  .resource-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0 0 0.3rem;
+    line-height: 1.35;
+  }
+  .resource-desc {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin: 0 0 0.5rem;
+    line-height: 1.6;
+  }
+  .resource-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+  .resource-hero {
+    margin-bottom: 1.5rem;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .resource-hero img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .resource-download-area {
+    margin-bottom: 1.5rem;
+  }
+  .download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 2rem;
+    background: var(--color-primary);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .download-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);
+  }
+  .no-download {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+  .resource-tags {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 1.5rem;
+  }
+  .tags-label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+  .tag {
+    font-size: 0.75rem;
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+  }
+  .resource-content {
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: var(--text-primary);
+  }
+  .content-subtitle {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin: 0 0 0.8rem;
+    color: var(--text-primary);
+  }
+  .resource-content :global(h3) {
+    font-size: 1.05rem;
+    margin: 1.2rem 0 0.5rem;
+  }
+  .resource-content :global(p) {
+    margin: 0 0 1rem;
+  }
+  .resource-content :global(ul) {
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  .resource-content :global(li) {
+    margin-bottom: 0.3rem;
+  }
+
+  @media (max-width: 640px) {
+    .resource-title {
+      font-size: 1.25rem;
+    }
+    .download-btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>

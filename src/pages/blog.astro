@@ -1,0 +1,185 @@
+---
+// ================================================================
+// 文章列表页 — blog.astro
+// 包含：分类筛选、分页文章列表
+// ----------------------------------------------------------------
+// 路由示例：
+//   /blog              — 全部文章
+//   /blog?category=office  — 按分类筛选
+//   /blog?page=2           — 第 2 页
+// ----------------------------------------------------------------
+// 分页参数：PAGE_SIZE（每页文章数）
+// ================================================================
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PostGrid from '@/components/PostGrid.astro';
+import { getCollection } from 'astro:content';
+
+const PAGE_SIZE = 9; // 每页显示 9 篇文章
+
+// 获取 URL 查询参数
+const url = Astro.url;
+const category = url.searchParams.get('category') || '';
+const pageParam = parseInt(url.searchParams.get('page') || '1', 10);
+const currentPage = Math.max(1, pageParam);
+
+// 分类名称映射
+const CATEGORY_NAMES: Record<string, string> = {
+  office: '办公教程',
+  programming: '编程学习',
+  software: '软件安装',
+  computer: '电脑问题',
+  resources: '资源下载',
+};
+
+// 获取并筛选文章
+const allPosts = await getCollection('blog');
+let filteredPosts = allPosts.sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+
+// 如果传入了分类参数，则按分类筛选
+const activeCategory = category && CATEGORY_NAMES[category] ? category : '';
+if (activeCategory) {
+  filteredPosts = filteredPosts.filter((p) => p.data.category === activeCategory);
+}
+
+// 分页计算
+const totalPosts = filteredPosts.length;
+const totalPages = Math.max(1, Math.ceil(totalPosts / PAGE_SIZE));
+const safePage = Math.min(currentPage, totalPages);
+const paginatedPosts = filteredPosts.slice(
+  (safePage - 1) * PAGE_SIZE,
+  safePage * PAGE_SIZE
+);
+
+// 构建分页 URL 辅助函数
+function pageUrl(page: number): string {
+  const params = new URLSearchParams();
+  if (activeCategory) params.set('category', activeCategory);
+  if (page > 1) params.set('page', String(page));
+  const qs = params.toString();
+  return qs ? `/blog?${qs}` : '/blog';
+}
+
+const pageTitle = activeCategory
+  ? `${CATEGORY_NAMES[activeCategory]} - 文章列表`
+  : '全部文章';
+---
+<BaseLayout title={pageTitle} currentPath="/blog">
+  <div class="blog-page">
+    <h1 class="page-title">
+      {activeCategory ? CATEGORY_NAMES[activeCategory] : '全部文章'}
+      <span class="post-count">({totalPosts} 篇)</span>
+    </h1>
+
+    <!-- 分类筛选标签 -->
+    <div class="category-tabs">
+      <a
+        href="/blog"
+        class:list={{ 'category-tab': true, active: !activeCategory }}
+      >全部分类</a>
+      {Object.entries(CATEGORY_NAMES).map(([key, label]) => (
+        <a
+          href={`/blog?category=${key}`}
+          class:list={{ 'category-tab': true, active: activeCategory === key }}
+        >{label}</a>
+      ))}
+    </div>
+
+    <!-- 文章网格 -->
+    <PostGrid posts={paginatedPosts} type="blog" />
+
+    <!-- 分页导航 -->
+    {totalPages > 1 && (
+      <nav class="pagination">
+        {safePage > 1 && (
+          <a href={pageUrl(safePage - 1)} class="page-btn">上一页</a>
+        )}
+        {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+          <a
+            href={pageUrl(p)}
+            class:list={{ 'page-btn': true, active: p === safePage }}
+          >{p}</a>
+        ))}
+        {safePage < totalPages && (
+          <a href={pageUrl(safePage + 1)} class="page-btn">下一页</a>
+        )}
+      </nav>
+    )}
+  </div>
+</BaseLayout>
+
+<style>
+  .blog-page {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .page-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 0.3rem;
+  }
+  .post-count {
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: var(--text-muted);
+  }
+
+  .category-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 1rem 0 1.5rem;
+  }
+  .category-tab {
+    display: inline-block;
+    padding: 0.35rem 0.8rem;
+    font-size: 0.8rem;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .category-tab:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+  .category-tab.active {
+    background: var(--color-primary);
+    color: #fff;
+    border-color: var(--color-primary);
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 2rem;
+  }
+  .page-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 36px;
+    padding: 0 0.6rem;
+    font-size: 0.85rem;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .page-btn:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+  .page-btn.active {
+    background: var(--color-primary);
+    color: #fff;
+    border-color: var(--color-primary);
+  }
+</style>

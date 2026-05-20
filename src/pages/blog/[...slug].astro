@@ -1,0 +1,259 @@
+---
+// ================================================================
+// 文章详情页 — blog/[...slug].astro
+// 显示：文章完整内容、标签列表、Giscus 评论区
+// ----------------------------------------------------------------
+// 使用 Astro Content Collections 获取文章内容
+// 通过 getCollection('blog') 查询 Slug 匹配的文章
+// ================================================================
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.id.replace(/\/index$/, '') },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { title, description, date, category, tags, premium, heroImage } = post.data;
+const { Content } = await post.render();
+
+// 分类名称映射
+const CATEGORY_NAMES: Record<string, string> = {
+  office: '办公教程',
+  programming: '编程学习',
+  software: '软件安装',
+  computer: '电脑问题',
+  resources: '资源下载',
+};
+---
+<BaseLayout title={title} description={description} currentPath="/blog">
+  <article class="article-detail">
+    <!-- 文章元信息 -->
+    <header class="article-header">
+      <div class="article-meta-top">
+        {category && (
+          <a href={`/blog?category=${category}`} class="article-category">
+            {CATEGORY_NAMES[category] || category}
+          </a>
+        )}
+        {premium && <span class="article-premium">付费内容</span>}
+      </div>
+      <h1 class="article-title">{title}</h1>
+      <div class="article-meta">
+        <time datetime={date.toISOString()}>
+          {date.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' })}
+        </time>
+      </div>
+    </header>
+
+    <!-- 缩略图 -->
+    {heroImage && (
+      <div class="article-hero">
+        <img src={heroImage} alt={title} />
+      </div>
+    )}
+
+    <!-- 文章正文 -->
+    <div class="article-content">
+      <Content />
+    </div>
+
+    <!-- 标签列表 -->
+    {tags && tags.length > 0 && (
+      <div class="article-tags">
+        <span class="tags-label">标签：</span>
+        {tags.map((tag) => (
+          <span class="tag">{tag}</span>
+        ))}
+      </div>
+    )}
+
+    <!-- 广告位：未来可插入广告代码 -->
+    <!-- 广告位：正文结束后可插入相关广告 -->
+
+    <!-- ========================================================== -->
+    <!-- Giscus 评论区 -->
+    <!-- 使用前需替换以下 data-* 属性为你的 GitHub 仓库信息 -->
+    <!-- 配置方法：
+         1. 安装 Giscus GitHub App 到你的仓库
+         2. 访问 https://giscus.app/zh-CN 生成配置
+         3. 将下方的 data-repo、data-repo-id 等替换为你的值 -->
+    <!-- ========================================================== -->
+    <div class="article-comments">
+      <h3 class="comments-title">评论交流</h3>
+      <script
+        src="https://giscus.app/client.js"
+        data-repo="你的GitHub用户名/你的仓库名"
+        data-repo-id="你的仓库ID"
+        data-category="Announcements"
+        data-category-id="你的分类ID"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+      </script>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .article-detail {
+    max-width: 780px;
+    margin: 0 auto;
+  }
+  .article-header {
+    margin-bottom: 1.5rem;
+  }
+  .article-meta-top {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .article-category {
+    font-size: 0.75rem;
+    color: var(--color-primary);
+    background: var(--color-primary-light);
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    text-decoration: none;
+  }
+  .article-premium {
+    font-size: 0.75rem;
+    color: #fff;
+    background: #f59e0b;
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+  }
+  .article-title {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0 0 0.5rem;
+    line-height: 1.35;
+  }
+  .article-meta {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+  .article-hero {
+    margin-bottom: 1.5rem;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .article-hero img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .article-content {
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: var(--text-primary);
+  }
+  .article-content :global(h2) {
+    font-size: 1.25rem;
+    margin: 1.5rem 0 0.8rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 1px solid var(--border-color);
+  }
+  .article-content :global(h3) {
+    font-size: 1.1rem;
+    margin: 1.2rem 0 0.5rem;
+  }
+  .article-content :global(p) {
+    margin: 0 0 1rem;
+  }
+  .article-content :global(ul), .article-content :global(ol) {
+    margin: 0 0 1rem;
+    padding-left: 1.5rem;
+  }
+  .article-content :global(li) {
+    margin-bottom: 0.3rem;
+  }
+  .article-content :global(code) {
+    font-size: 0.85em;
+    background: var(--code-bg);
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+  }
+  .article-content :global(pre) {
+    background: #1f2937;
+    color: #f3f4f6;
+    padding: 1rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 0 0 1rem;
+  }
+  .article-content :global(pre code) {
+    background: none;
+    padding: 0;
+    color: inherit;
+  }
+  .article-content :global(blockquote) {
+    border-left: 3px solid var(--color-primary);
+    padding-left: 1rem;
+    margin: 0 0 1rem;
+    color: var(--text-secondary);
+    font-style: italic;
+  }
+  .article-content :global(img) {
+    max-width: 100%;
+    border-radius: 8px;
+    margin: 1rem 0;
+  }
+  .article-content :global(a) {
+    color: var(--color-primary);
+    text-decoration: underline;
+  }
+
+  .article-tags {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+  }
+  .tags-label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+  .tag {
+    font-size: 0.75rem;
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+  }
+
+  .article-comments {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+  }
+  .comments-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0 0 1rem;
+    color: var(--text-primary);
+  }
+
+  @media (max-width: 640px) {
+    .article-title {
+      font-size: 1.25rem;
+    }
+    .article-content {
+      font-size: 0.9rem;
+    }
+  }
+</style>

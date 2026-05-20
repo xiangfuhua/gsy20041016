@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 -c ' *)",
+      "Bash(python3)",
+      "Bash(mkdir -p \"/c/Users/10978/Desktop/WordPress主题/public/admin\")",
+      "Bash(mkdir -p \"/c/Users/10978/Desktop/WordPress主题/src/layouts\")",
+      "Bash(mkdir -p \"/c/Users/10978/Desktop/WordPress主题/src/components\")",
+      "Bash(mkdir -p \"/c/Users/10978/Desktop/WordPress主题/src/pages/blog\")",
+      "Bash(mkdir -p \"/c/Users/10978/Desktop/WordPress主题/src/pages/resources\")"
+    ]
+  }
+}

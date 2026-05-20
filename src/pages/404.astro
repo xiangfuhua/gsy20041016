@@ -1,0 +1,68 @@
+---
+// ================================================================
+// 404 页面 — 友好的错误提示页
+// ================================================================
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+<BaseLayout title="页面未找到">
+  <div class="not-found">
+    <h1 class="nf-code">404</h1>
+    <p class="nf-text">抱歉，您访问的页面不存在或已被移除。</p>
+    <div class="nf-actions">
+      <a href="/" class="btn-home">返回首页</a>
+      <a href="/blog" class="btn-blog">浏览文章</a>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .not-found {
+    text-align: center;
+    padding: 4rem 1rem;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  .nf-code {
+    font-size: 5rem;
+    font-weight: 900;
+    color: var(--color-primary);
+    margin: 0 0 0.5rem;
+    line-height: 1;
+    opacity: 0.8;
+  }
+  .nf-text {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin: 0 0 2rem;
+  }
+  .nf-actions {
+    display: flex;
+    gap: 0.8rem;
+    justify-content: center;
+  }
+  .btn-home, .btn-blog {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.65rem 1.5rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .btn-home {
+    background: var(--color-primary);
+    color: #fff;
+  }
+  .btn-home:hover {
+    opacity: 0.9;
+  }
+  .btn-blog {
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+  }
+  .btn-blog:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+</style>

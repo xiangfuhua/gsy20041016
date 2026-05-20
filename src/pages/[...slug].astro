@@ -1,0 +1,75 @@
+---
+// ================================================================
+// 通用页面模板 — [...slug].astro
+// 用于渲染独立页面（关于我、友情链接、隐私政策等）
+// 从 src/content/pages/ 集合中获取内容
+// ----------------------------------------------------------------
+// 路由示例：
+//   /about      → src/content/pages/about.md
+//   /friends    → src/content/pages/friends.md
+// ================================================================
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const pages = await getCollection('pages');
+  return pages.map((page) => ({
+    params: { slug: page.id.replace(/\/index$/, '') },
+    props: { page },
+  }));
+}
+
+const { page } = Astro.props;
+const { title, description } = page.data;
+const { Content } = await page.render();
+---
+<BaseLayout title={title} description={description} currentPath={`/pages/${page.id.replace(/\/index$/, '')}`}>
+  <article class="generic-page">
+    <h1 class="page-title">{title}</h1>
+    <div class="page-content">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .generic-page {
+    max-width: 780px;
+    margin: 0 auto;
+  }
+  .page-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--color-primary);
+  }
+  .page-content {
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: var(--text-primary);
+  }
+  .page-content :global(h2) {
+    font-size: 1.2rem;
+    margin: 1.5rem 0 0.8rem;
+  }
+  .page-content :global(h3) {
+    font-size: 1.05rem;
+    margin: 1.2rem 0 0.5rem;
+  }
+  .page-content :global(p) {
+    margin: 0 0 1rem;
+  }
+  .page-content :global(ul), .page-content :global(ol) {
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  .page-content :global(li) {
+    margin-bottom: 0.3rem;
+  }
+  .page-content :global(a) {
+    color: var(--color-primary);
+    text-decoration: underline;
+  }
+</style>
