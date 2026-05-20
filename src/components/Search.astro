@@ -77,7 +77,7 @@
     if (!input || !results) return;
 
     // 动态加载 Pagefind 索引（构建后生成）
-    const pagefind = await import('/pagefind/pagefind.js');
+    const pagefind = await import('pagefind');
     pagefind.init();
 
     /** 搜索结果去抖定时器 */
